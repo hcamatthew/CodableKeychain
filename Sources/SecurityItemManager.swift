@@ -25,7 +25,7 @@
 import Foundation
 import Security
 
-protocol SecurityItemManaging {
+public protocol SecurityItemManaging {
 
     func add(withAttributes attributes: [String: Any], result: UnsafeMutablePointer<CoreFoundation.CFTypeRef?>?) -> OSStatus
     func update(withQuery query: [String: Any], attributesToUpdate: [String: Any]) -> OSStatus
@@ -34,27 +34,27 @@ protocol SecurityItemManaging {
 
 }
 
-final class SecurityItemManager {
+public final class SecurityItemManager {
 
-    static let `default` = SecurityItemManager()
+    public static let `default` = SecurityItemManager()
 
 }
 
 extension SecurityItemManager: SecurityItemManaging {
 
-    func add(withAttributes attributes: [String: Any], result: UnsafeMutablePointer<CFTypeRef?>?) -> OSStatus {
+    public func add(withAttributes attributes: [String: Any], result: UnsafeMutablePointer<CFTypeRef?>?) -> OSStatus {
         return SecItemAdd(attributes as CFDictionary, result)
     }
 
-    func update(withQuery query: [String: Any], attributesToUpdate: [String: Any]) -> OSStatus {
+    public func update(withQuery query: [String: Any], attributesToUpdate: [String: Any]) -> OSStatus {
         return SecItemUpdate(query as CFDictionary, attributesToUpdate as CFDictionary)
     }
 
-    func delete(withQuery query: [String : Any]) -> OSStatus {
+    public func delete(withQuery query: [String : Any]) -> OSStatus {
         return SecItemDelete(query as CFDictionary)
     }
 
-    func copyMatching(_ query: [String : Any], result: UnsafeMutablePointer<CFTypeRef?>?) -> OSStatus {
+    public func copyMatching(_ query: [String : Any], result: UnsafeMutablePointer<CFTypeRef?>?) -> OSStatus {
         return SecItemCopyMatching(query as CFDictionary, result)
     }
 

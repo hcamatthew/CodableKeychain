@@ -52,7 +52,7 @@ open class Keychain {
 
     let securityItemManager: SecurityItemManaging
 
-    init(securityItemManager: SecurityItemManaging = SecurityItemManager.default) {
+    public init(securityItemManager: SecurityItemManaging = SecurityItemManager.default) {
         self.securityItemManager = securityItemManager
     }
 
