@@ -25,7 +25,7 @@
 import Foundation
 import Security
 
-public final class Keychain {
+open class Keychain {
 
     private enum Constants {
         static let accessible = kSecAttrAccessible.stringValue
@@ -68,7 +68,7 @@ public final class Keychain {
         defaultAccessGroup = nil
     }
 
-    public func store<T: KeychainStorable>(_ storable: T, service: String = defaultService, accessGroup: String? = defaultAccessGroup) throws {
+    open func store<T: KeychainStorable>(_ storable: T, service: String = defaultService, accessGroup: String? = defaultAccessGroup) throws {
         let newData = try JSONEncoder().encode(storable)
         var query = self.query(for: storable, service: service, accessGroup: accessGroup)
         let existingData = try data(forAccount: storable.account, service: service, accessGroup: accessGroup)
@@ -85,7 +85,7 @@ public final class Keychain {
         }
     }
 
-    public func retrieveValue<T: KeychainStorable>(forAccount account: String, service: String = defaultService,
+    open func retrieveValue<T: KeychainStorable>(forAccount account: String, service: String = defaultService,
                                                    accessGroup: String? = defaultAccessGroup) throws -> T? {
         guard let data = try data(forAccount: account, service: service, accessGroup: accessGroup) else { return nil }
         return try JSONDecoder().decode(T.self, from: data)
@@ -104,13 +104,13 @@ public final class Keychain {
         return attributes.compactMap { $0[Constants.account] as? String }
     }
 
-    public func delete<T: KeychainStorable>(_ storable: T, service: String = defaultService, accessGroup: String? = defaultAccessGroup) throws {
+    open func delete<T: KeychainStorable>(_ storable: T, service: String = defaultService, accessGroup: String? = defaultAccessGroup) throws {
         let query = self.query(forAccount: storable.account, service: service, accessGroup: accessGroup)
         let status = securityItemManager.delete(withQuery: query)
         if let error = error(fromStatus: status) { throw error }
     }
 
-    public func clearAll(withService service: String = defaultService, accessGroup: String? = defaultAccessGroup) throws {
+    open func clearAll(withService service: String = defaultService, accessGroup: String? = defaultAccessGroup) throws {
         guard let retrievedAccounts = try retrieveAccounts(withService: service, accessGroup: accessGroup) else { return }
         try retrievedAccounts.forEach {
             let query = self.query(forAccount: $0, service: service, accessGroup: accessGroup)
