@@ -5,7 +5,7 @@ import PackageDescription
 let package = Package(
     name: "CodableKeychain",
     platforms: [
-        .ios(.v13.0),
+        .iOS(.v13),
     ],
     products: [
         .library(name: "CodableKeychain", targets: ["CodableKeychain"]),
