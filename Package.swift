@@ -13,6 +13,6 @@ let package = Package(
     dependencies: [
     ],
     targets: [
-        .target(name: "CodableKeychain", dependencies: []),
+        .target(name: "CodableKeychain", dependencies: [], path: "Sources"),
     ]
 )
